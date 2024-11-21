@@ -9,7 +9,12 @@ export type ProblemType= { //内部问题类型格式
   answerRule? : string,
   //subProblem? :ProblemSeq
 }
-
+export type RequestRandomfindIdType= {
+  problemType : string,
+  length : number
+}
+export type RequestProblemFindType = {id :number}[]
+export type RequestAnswerCheckType = {id : number, answer : string}[]
 export async function create(problem: ProblemType){ //创建一个问题
     return (await prisma.problem.create(
       {
@@ -32,12 +37,12 @@ export async function create(problem: ProblemType){ //创建一个问题
       }
     ));
   }
-export async function randomFindId(type : string ,length : number){ //随机选择特定类型的问题，返回ID
-  return (await prisma.$queryRaw `SELECT id FROM Problem WHERE problemType = ${type} ORDER BY RANDOM() LIMIT ${length};` as {id : number}[]).map((val:{id : number})=>{return val.id});
+export async function randomFindId(request : RequestRandomfindIdType){ //随机选择特定类型的问题，返回ID
+  return (await prisma.$queryRaw `SELECT id FROM Problem WHERE problemType = ${request.problemType} ORDER BY RANDOM() LIMIT ${request.length};` as {id : number}[]).map((val:{id : number})=>{return val.id});
 
 }
-export async function problemFind(idList : number[]){ //返回ID列表的题目（不含答案）
-   return idList.map(async (id)=>{
+export async function problemFind(idList : RequestProblemFindType){ //返回ID列表的题目（不含答案）
+   return idList.map(async (val)=>{
      return (await prisma.problem.findUnique(
        {
 	 select : {
@@ -50,7 +55,7 @@ export async function problemFind(idList : number[]){ //返回ID列表的题目�
 	     }
 	   }
 	 },
-	 where : {id : id}
+	 where : {id : val.id}
        }
      ))
    })
