@@ -1,4 +1,4 @@
-import * as problemDB from "./database/problemDB"
+import * as problemDB from "../database/problemDB"
 const problem1 : problemDB.ProblemType =
 {
   "problemType" : "text",
@@ -7,10 +7,10 @@ const problem1 : problemDB.ProblemType =
 }
 async function start()
     {
-      const idlist : number[]=await problemDB.randomFindId("text",1)
+      const idlist : {id : number}[]=await problemDB.randomFindId({problemType :"text",length :1})
       const pro=await problemDB.problemFind(idlist);
       const right=await problemDB.answerCheck(
-	[{id : idlist[0],answer :"interned"}]);
+	[{id : idlist[0].id,answer :"interned"}]);
       console.log((await pro[0])?.stem);
       console.log(await right[0]);
     }
