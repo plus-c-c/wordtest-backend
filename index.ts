@@ -31,17 +31,24 @@ const RequestSchema = {
   }
 }
 
-fastify.get("/", async (request, reply) => {
+fastify.post("/", async (request, reply) => {
+  console.log("Request Received")
   const validation  = request.compileValidationSchema(RequestSchema);
   validation(request.body)
   const req : any = request.body ;
+  console.log(req)
   switch (req.head){
-    case "get id":
-      reply.send(db.randomFindId(req.body));
+    case "get problem id":
+      reply.send(await db.randomFindId(req.body));
+      break;
     case "find problem":
-      reply.send(db.problemFind(req.body));
+      reply.send(await db.problemFind(req.body));
+      break;
     case "check answer":
-      reply.send(db.answerCheck(req.body));
+      reply.send(await db.answerCheck(req.body));
+      break;
+    default:
+      reply.send({ msg : "Invalid Answer" });
   }
 });
 

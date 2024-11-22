@@ -1,10 +1,4 @@
 import * as problemDB from "../database/problemDB"
-const problem1 : problemDB.ProblemType =
-{
-  "problemType" : "text",
-  "stem" : "After high school, I _ for a nearby plastic surgeon.",
-  "answers" : "interned"
-}
 async function start()
     {
       const idlist : {id : number}[]=await problemDB.randomFindId({problemType :"text",length :1})

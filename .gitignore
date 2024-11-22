@@ -61,3 +61,6 @@ profile*
 prisma/migrations/
 prisma/migrations/*
 prisma/dev*
+
+#build
+*.js
