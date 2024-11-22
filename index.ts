@@ -30,7 +30,9 @@ const RequestSchema = {
     }
   }
 }
-fastify.register(fastifyCors)
+fastify.register(fastifyCors,{
+  origin : ["http://127.0.0.1:3001"]
+})
 fastify.post("/", async (request, reply) => {
   console.log("Request Received")
   const validation  = request.compileValidationSchema(RequestSchema);
