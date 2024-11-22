@@ -1,4 +1,4 @@
-
+import {fastifyCors} from "@fastify/cors"
 import Fastify from "fastify";
 import * as db from "./database/problemDB"
 const fastify = Fastify({
@@ -30,7 +30,7 @@ const RequestSchema = {
     }
   }
 }
-
+fastify.register(fastifyCors)
 fastify.post("/", async (request, reply) => {
   console.log("Request Received")
   const validation  = request.compileValidationSchema(RequestSchema);
