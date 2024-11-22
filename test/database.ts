@@ -5,7 +5,7 @@ async function start()
       const pro=await problemDB.problemFind(idlist);
       const right=await problemDB.answerCheck(
 	[{id : idlist[0].id,answer :"interned"}]);
-      console.log((await pro[0])?.stem);
-      console.log(await right[0]);
+      console.log(pro);
+      console.log(right);
     }
 start()

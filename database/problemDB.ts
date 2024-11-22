@@ -42,7 +42,7 @@ export async function randomFindId(request : RequestRandomfindIdType){ //随机�
 
 }
 export async function problemFind(idList : RequestProblemFindType){ //返回ID列表的题目（不含答案）
-   return idList.map(async (val)=>{
+   return await Promise.all(idList.map(async (val)=>{
      return (await prisma.problem.findUnique(
        {
 	 select : {
@@ -58,10 +58,10 @@ export async function problemFind(idList : RequestProblemFindType){ //返回ID�
 	 where : {id : val.id}
        }
      ))
-   })
+   }))
 }
 export async function answerCheck(checkList: {id : number, answer : string}[]){ // 检查特定ID题目的答案
-  return checkList.map(async (val:{id : number, answer : string})=>{
+  return await Promise.all(checkList.map(async (val:{id : number, answer : string})=>{
     const ans=await prisma.problem.findUnique(
       {
 	select : {
@@ -72,7 +72,7 @@ export async function answerCheck(checkList: {id : number, answer : string}[]){ 
       }
     )
     return isRight(val.answer,ans?.answers??"",ans?.answerRule??"")
-    })
+    }))
   }
     /**
   async delete(id:number){ //删除特定id的问题
