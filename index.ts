@@ -31,7 +31,12 @@ const RequestSchema = {
   }
 }
 fastify.register(fastifyCors,{
-  origin : ["http://127.0.0.1:3001"]
+  allowedHeaders : '*',
+  exposedHeaders : '*',
+  methods : '*',
+  origin : ["http://127.0.0.1:3001"],
+  maxAge : 60*60*1,
+  cacheControl : 60*60*1
 })
 fastify.post("/", async (request, reply) => {
   console.log("Request Received")
